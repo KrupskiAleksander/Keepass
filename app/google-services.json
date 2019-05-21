@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "942020967501",
+    "firebase_url": "https://keepassdroidd.firebaseio.com",
+    "project_id": "keepassdroidd",
+    "storage_bucket": "keepassdroidd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942020967501:android:d1b03fe55a48cffc",
+        "android_client_info": {
+          "package_name": "krupski.aleksander.keepassdroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942020967501-iiatn3tpmtvqoqsv4fqdmjd8bv39eecu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-TwRwESPfe7oL9qMmL0evjbpo2_0FuJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942020967501-iiatn3tpmtvqoqsv4fqdmjd8bv39eecu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
