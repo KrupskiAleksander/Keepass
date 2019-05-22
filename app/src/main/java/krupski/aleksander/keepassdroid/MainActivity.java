@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         newEntry = (EditText) findViewById(R.id.new_entry);
         newLogin = (EditText) findViewById(R.id.new_login);
         newPassword = (EditText) findViewById(R.id.new_password);
+        final TextView textView = (TextView) findViewById(R.id.textView);
 
 
         newEntry.setVisibility(View.GONE);
@@ -186,16 +188,13 @@ public class MainActivity extends AppCompatActivity {
         btnShowAllPasswords.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newEntry.setVisibility(View.VISIBLE);
-                newLogin.setVisibility(View.VISIBLE);
-                newPassword.setVisibility(View.VISIBLE);
-                btnAddNewPassword.setVisibility(View.VISIBLE);
-                String name = intent.getStringExtra(LoginActivity.USERNAME);
-                int index = name.indexOf('.');
-                DatabaseReference newRef = database.getReference("users");
-                String aaa = newRef.child(name.substring(0, index)).child("passwords").toString();
-          //      DataSnapshot datasnapshot = database.getReference().
-  //
+                newEntry.setVisibility(View.GONE);
+                newLogin.setVisibility(View.GONE);
+                newPassword.setVisibility(View.GONE);
+                btnAddNewPassword.setVisibility(View.GONE);
+                textView.setVisibility(View.VISIBLE);
+                textView.setText(allPasswords.toString());
+
 
             }
         });
