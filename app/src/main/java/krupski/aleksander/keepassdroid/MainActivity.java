@@ -15,6 +15,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import krupski.aleksander.keepassdroid.data.Password;
+import krupski.aleksander.keepassdroid.data.User;
+import krupski.aleksander.keepassdroid.utils.AES;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +39,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        Intent intent = getIntent();
+        if(intent.getStringExtra(LoginActivity.PASSWORD) != null) {
+//            DatabaseReference myRef = database.getReference(intent.getStringExtra(LoginActivity.USERNAME));
+//            myRef.setValue(AES.encrypt("Hello, World!", (intent.getStringExtra(LoginActivity.PASSWORD))));
+            Password pass1 = new Password("olek", "google", AES.encrypt("mocnehaslo123", (intent.getStringExtra(LoginActivity.PASSWORD))));
+            Password pass2 = new Password("olek2", "aaa", AES.encrypt("mocnehaslo321", (intent.getStringExtra(LoginActivity.PASSWORD))));
+            User user = new User();
+            List<Password> passwords = new ArrayList<>();
+            passwords.add(pass1);
+            passwords.add(pass2);
+            user.setPasswords(passwords);
+            user.setUsername(intent.getStringExtra(LoginActivity.USERNAME));
+            DatabaseReference myref = database.getReference("users");
+            myref.setValue(user);
 
+        }
+        else if(intent.getStringExtra(SignupActivity.PASSWORD) != null){
+
+            DatabaseReference myRef = database.getReference(intent.getStringExtra(SignupActivity.USERNAME));
+            myRef.setValue(AES.encrypt("Hello, World!", (intent.getStringExtra(SignupActivity.PASSWORD))));
+
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
