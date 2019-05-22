@@ -18,7 +18,7 @@
     <string name="btn_link_to_login">Already registered. Login Me!</string>
     <string name="btn_forgot_password">Forgot your password?</string>
     <string name="hint_new_email">Login</string>
-    <string name="btn_change">Change</string>
+    <string name="btn_change">Add password</string>
     <string name="btn_send">Send</string>
     <string name="btn_remove">Remove</string>
     <string name="btn_sign_out">Sign Out</string>

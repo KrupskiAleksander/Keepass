@@ -46,16 +46,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //final List<Password> allPasswords = new ArrayList<>();
         database.getReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String name = getIntent().getStringExtra(LoginActivity.USERNAME);
+                String name, pwd;
+                if(getIntent().getStringExtra(LoginActivity.USERNAME) != null)
+                {
+                    name = getIntent().getStringExtra(LoginActivity.USERNAME);
+                    pwd =  getIntent().getStringExtra(LoginActivity.PASSWORD);
+                }
+                else
+                {
+
+                    name = getIntent().getStringExtra(SignupActivity.USERNAME);
+                    pwd =  getIntent().getStringExtra(SignupActivity.PASSWORD);
+                }
                 int index = name.indexOf('.');
                 Map map = new HashMap<String, Password>();
                 map = (HashMap<String, Password>)dataSnapshot.child("users").child(name.substring(0, index)).child("passwords").getValue();
-                allPasswords = new ArrayList<Password>(map.values());
-                System.out.println(allPasswords.toString());
+                if(!(map==null || map.isEmpty() )) {
+                    allPasswords = new ArrayList<Password>(map.values());
+                    System.out.println(allPasswords.toString());
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -122,15 +134,27 @@ public class MainActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 if (user != null && !newEntry.getText().toString().trim().equals("") && !newLogin.getText().toString().trim().equals("") && !newPassword.getText().toString().trim().equals("")) {
                     User user = new User();
-                    user.setUsername(intent.getStringExtra(LoginActivity.USERNAME));
-                    Password password = new Password(newEntry.getText().toString().trim(), newLogin.getText().toString().trim(), AES.encrypt(newPassword.getText().toString().trim(), (intent.getStringExtra(LoginActivity.PASSWORD))));
+                    String name, pwd;
+                    if(getIntent().getStringExtra(LoginActivity.USERNAME) != null)
+                    {
+                        name = getIntent().getStringExtra(LoginActivity.USERNAME);
+                        pwd =  getIntent().getStringExtra(LoginActivity.PASSWORD);
+                    }
+                    else
+                    {
+
+                        name = getIntent().getStringExtra(SignupActivity.USERNAME);
+                        pwd =  getIntent().getStringExtra(SignupActivity.PASSWORD);
+                    }
+                    user.setUsername(name);
+                    Password password = new Password(newEntry.getText().toString().trim(), newLogin.getText().toString().trim(), AES.encrypt(newPassword.getText().toString().trim(), pwd));
                     List<Password> passwords = new ArrayList<>();
                     passwords.add(password);
                     user.setPasswords(passwords);
                     DatabaseReference myref = database.getReference("users");
-                    String name = intent.getStringExtra(LoginActivity.USERNAME);
-                    int index = name.indexOf('.');
-                    myref.child(name.substring(0, index)).child("passwords").push().setValue(password).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    String name2 = intent.getStringExtra(LoginActivity.USERNAME);
+                    int index = name2.indexOf('.');
+                    myref.child(name2.substring(0, index)).child("passwords").push().setValue(password).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
